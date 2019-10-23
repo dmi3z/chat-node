@@ -13,21 +13,15 @@ var server = express()
 const wss = new SocketServer({ server });
     
 wss.on('connection', ws => {
-    // ws.on('message', message => {
-    //     wss.clients.forEach(client => {
-    //         if (client.readyState === WebSocket.OPEN) {
-    //             client.send(message);
-    //         }
-    //     })
-    // })
+    ws.on('message', message => {
+        wss.clients.forEach(client => {
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(message);
+            }
+        })
+    })
     ws.send('Welcome to Dmi3z websocket');
 });
-
-setInterval(() => {
-    wss.clients.forEach((client) => {
-      client.send(new Date().toTimeString());
-    });
-  }, 1000);
 
 // ---------- API -------
 
