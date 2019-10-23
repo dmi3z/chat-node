@@ -17,9 +17,9 @@ app.post('/users', (req, res) => {
 
 // ----------------------
 
+const port = process.env.PORT || 3000;
 
-
-app.listen(3012, () => {
+app.listen(port, () => {
     // mongoClient.connect((err, client) => {
  
     //     if(err){
