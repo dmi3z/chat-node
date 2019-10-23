@@ -11,6 +11,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // ---------- API -------
 
+app.get('/', (req, res) => {
+    res.send('Welcome to AngryChat api');
+});
+
 app.post('/users', (req, res) => {
     const user = req.body;
 });
