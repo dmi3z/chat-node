@@ -9,19 +9,8 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-var WebSocket = require('ws');
-const socketServer = new WebSocket.Server({ app });
+const SocketServer = require('ws').Server;
 
-socketServer.on('connection', ws => {
-    ws.on('message', message => {
-        socketServer.clients.forEach(client => {
-            if (client.readyState === WebSocket.OPEN) {
-                client.send(message);
-            }
-        })
-    })
-    ws.send('Welcome to Dmi3z websocket');
-});
 
 // ---------- API -------
 
@@ -51,4 +40,26 @@ app.listen(port, () => {
     //     client.close();
     // });
     console.log('Api started at port: ', port);
+    const wss = new SocketServer({ app });
+
+wss.on('connection', ws => {
+    ws.on('message', message => {
+        wss.clients.forEach(client => {
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(message);
+            }
+        })
+    })
+    ws.send('Welcome to Dmi3z websocket');
 });
+});
+
+
+
+
+
+wss.on('connection', (ws) => {
+  console.log('Client connected');
+  ws.on('close', () => console.log('Client disconnected'));
+});
+
