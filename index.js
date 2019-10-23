@@ -1,10 +1,24 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
-const mongoClient = new MongoClient("mongodb://localhost:27017/", { useNewUrlParser: true });
+// const mongoClient = new MongoClient("mongodb://localhost:27017/", { useNewUrlParser: true });
+
+var WebSocket = require('ws');
+const socketServer = new WebSocket.Server({ port: 3050 });
+
+socketServer.on('connection', ws => {
+    ws.on('message', message => {
+        socketServer.clients.forEach(client => {
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(message);
+            }
+        })
+    })
+    ws.send('Welcome to Dmi3z websocket');
+});
 
 var app = express();
-var db;
+// var db;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -13,10 +27,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
     res.send('Welcome to AngryChat api');
-});
-
-app.post('/users', (req, res) => {
-    const user = req.body;
 });
 
 // ----------------------
