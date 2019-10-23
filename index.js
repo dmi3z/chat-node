@@ -1,10 +1,16 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-const MongoClient = require('mongodb').MongoClient;
+// const MongoClient = require('mongodb').MongoClient;
 // const mongoClient = new MongoClient("mongodb://localhost:27017/", { useNewUrlParser: true });
 
+var app = express();
+// var db;
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 var WebSocket = require('ws');
-const socketServer = new WebSocket.Server({ port: 3050 });
+const socketServer = new WebSocket.Server({ app });
 
 socketServer.on('connection', ws => {
     ws.on('message', message => {
@@ -16,12 +22,6 @@ socketServer.on('connection', ws => {
     })
     ws.send('Welcome to Dmi3z websocket');
 });
-
-var app = express();
-// var db;
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 // ---------- API -------
 
@@ -50,5 +50,5 @@ app.listen(port, () => {
     //     });
     //     client.close();
     // });
-    console.log('Connected success!');
+    console.log('Api started at port: ', port);
 });
