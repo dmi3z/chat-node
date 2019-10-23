@@ -2,7 +2,8 @@ var express = require('express');
 // var bodyParser = require('body-parser');
 // const MongoClient = require('mongodb').MongoClient;
 // const mongoClient = new MongoClient("mongodb://localhost:27017/", { useNewUrlParser: true });
-const SocketServer = require('ws').Server;
+const WebSocket = require('ws');
+const SocketServer = WebSocket.Server;
 
 const port = process.env.PORT || 3000;
 
