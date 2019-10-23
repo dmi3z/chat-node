@@ -23,6 +23,12 @@ wss.on('connection', ws => {
     ws.send('Welcome to Dmi3z websocket');
 });
 
+setInterval(() => {
+    wss.clients.forEach((client) => {
+      client.send(new Date().toTimeString());
+    });
+  }, 1000);
+
 // ---------- API -------
 
 // app.get('/', (req, res) => {
